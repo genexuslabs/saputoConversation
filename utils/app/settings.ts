@@ -1,10 +1,11 @@
 import { Settings } from '@/types/settings';
+import { getProduct } from './product';
 
 const STORAGE_KEY = 'settings';
 
 export const getSettings = (): Settings => {
   let settings: Settings = {
-    theme: 'dark',
+    theme: getProduct().theme,
   };
   const settingsJson = localStorage.getItem(STORAGE_KEY);
   if (settingsJson) {
