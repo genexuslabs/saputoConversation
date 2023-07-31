@@ -1,4 +1,5 @@
 export interface Product {
+    theme: "light" | "dark";
     productUrl: string ;
     allowSelectTemperature: boolean;
     accountUsageLink?: string ;

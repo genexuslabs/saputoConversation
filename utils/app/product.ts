@@ -13,7 +13,8 @@ export const getProduct = (): Product => {
     accountUsageLink: 'https://console.beta.saia.ai',
     showSystemPrompt: false,
     allowSelectTemperature: false,
-    productUrl: "https://www.saputo.com"
+    productUrl: "https://www.saputo.com",
+    theme: 'light'
   };
   
   return prod;
