@@ -2,7 +2,6 @@ import {
   IconCheck,
   IconCopy,
   IconEdit,
-  IconRobot,
   IconTrash,
   IconUser,
 } from '@tabler/icons-react';
@@ -22,6 +21,7 @@ import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 import rehypeMathjax from 'rehype-mathjax';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
+import { IconProduct } from './IconProduct';
 
 export interface Props {
   message: Message;
@@ -136,7 +136,7 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
       <div className="relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
         <div className="min-w-[40px] text-right font-bold">
           {message.role === 'assistant' ? (
-            <IconRobot size={30} />
+            <IconProduct size={30} />
           ) : (
             <IconUser size={30} />
           )}
@@ -148,6 +148,7 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
               {isEditing ? (
                 <div className="flex w-full flex-col">
                   <textarea
+                    title='user message'
                     ref={textareaRef}
                     className="w-full resize-none whitespace-pre-wrap border-none dark:bg-[#343541]"
                     value={messageContent}
@@ -193,12 +194,14 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
               {!isEditing && (
                 <div className="md:-mr-8 ml-1 md:ml-0 flex flex-col md:flex-row gap-4 md:gap-1 items-center md:items-start justify-end md:justify-start">
                   <button
+                    title='editing'
                     className="invisible group-hover:visible focus:visible text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                     onClick={toggleEditing}
                   >
                     <IconEdit size={20} />
                   </button>
                   <button
+                    title='delete'
                     className="invisible group-hover:visible focus:visible text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                     onClick={handleDeleteMessage}
                   >
@@ -274,6 +277,7 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
                   />
                 ) : (
                   <button
+                    title='copy'
                     className="invisible group-hover:visible focus:visible text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                     onClick={copyOnClick}
                   >
