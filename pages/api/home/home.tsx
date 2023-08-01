@@ -40,6 +40,7 @@ import HomeContext from './home.context';
 import { HomeInitialState, initialState } from './home.state';
 
 import { v4 as uuidv4 } from 'uuid';
+import { getProduct } from '@/utils/app/product';
 
 interface Props {
   serverSideApiKeyIsSet: boolean;
@@ -355,7 +356,7 @@ const Home = ({
       }}
     >
       <Head>
-        <title>Chatbot UI</title>
+        <title>{getProduct().name}</title>
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"

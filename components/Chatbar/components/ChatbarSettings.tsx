@@ -13,6 +13,8 @@ import { SidebarButton } from '../../Sidebar/SidebarButton';
 import ChatbarContext from '../Chatbar.context';
 import { ClearConversations } from './ClearConversations';
 import { PluginKeys } from './PluginKeys';
+import LogoutButton from '@/components/Auth/LogoutButton';
+import UserInfo from '@/components/Auth/UserInfo';
 
 export const ChatbarSettings = () => {
   const { t } = useTranslation('sidebar');
@@ -68,6 +70,9 @@ export const ChatbarSettings = () => {
           setIsSettingDialog(false);
         }}
       />
+      <UserInfo />
+      <LogoutButton />
+
     </div>
   );
 };

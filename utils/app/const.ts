@@ -22,3 +22,10 @@ export const OPENAI_ORGANIZATION =
 
 export const AZURE_DEPLOYMENT_ID =
   process.env.AZURE_DEPLOYMENT_ID || '';
+
+export const AZURE_AD_CLIENT_ID = 
+  process.env.AZURE_AD_CLIENT_ID || '27b865dd-01fd-46ed-bb96-cab652626103';
+
+export const AZURE_AD_TENANT_ID_URL = 
+  process.env.AZURE_AD_TENANT_ID || 'https://login.microsoftonline.com/5ec7bbf9-1872-46c9-b201-a1e181996b35';
+
