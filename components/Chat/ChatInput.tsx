@@ -19,7 +19,7 @@ import {
 import { useTranslation } from 'next-i18next';
 
 import { Message } from '@/types/chat';
-import { Plugin } from '@/types/plugin';
+import { Plugin, PluginID } from '@/types/plugin';
 import { Prompt } from '@/types/prompt';
 
 import HomeContext from '@/pages/api/home/home.context';
@@ -28,6 +28,7 @@ import { PluginSelect } from './PluginSelect';
 import { PromptList } from './PromptList';
 import { VariableModal } from './VariableModal';
 import { getProduct } from '@/utils/app/product';
+import { IconSaia } from '../Auth/Login';
 
 interface Props {
   onSend: (message: Message, plugin: Plugin | null) => void;
@@ -172,6 +173,9 @@ export const ChatInput = ({
     }
   };
 
+
+  
+
   const parseVariables = (content: string) => {
     const regex = /{{(.*?)}}/g;
     const foundVariables = [];
@@ -210,6 +214,19 @@ export const ChatInput = ({
       updatePromptListVisibility(prompt.content);
     }
   };
+
+
+  const getPluginIcon = (plugin?: Plugin | null) => {
+    if (!plugin) return <IconBolt size={20} />;
+    switch (plugin.id) {
+      case PluginID.GOOGLE_SEARCH:
+        return <IconBrandGoogle size={20} />;
+      case PluginID.SAIA:
+        return <IconSaia size={20} />;
+      default:
+        return <IconBolt size={20} />;
+    }
+  }
 
   const handleSubmit = (updatedVariables: string[]) => {
     const newContent = content?.replace(/{{(.*?)}}/g, (match, variable) => {
@@ -286,7 +303,7 @@ export const ChatInput = ({
             onClick={() => setShowPluginSelect(!showPluginSelect)}
             onKeyDown={(e) => {}}
           >
-            {plugin ? <IconBrandGoogle size={20} /> : <IconBolt size={20} />}
+            {getPluginIcon(plugin)}
           </button>
 
           {showPluginSelect && (

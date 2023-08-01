@@ -13,10 +13,12 @@ export interface PluginKey {
 
 export enum PluginID {
   GOOGLE_SEARCH = 'google-search',
+  SAIA = 'saia',
 }
 
 export enum PluginName {
   GOOGLE_SEARCH = 'Google Search',
+  SAIA = 'Saia',
 }
 
 export const Plugins: Record<PluginID, Plugin> = {
@@ -34,6 +36,14 @@ export const Plugins: Record<PluginID, Plugin> = {
       },
     ],
   },
+  [PluginID.SAIA]: {
+    id: PluginID.SAIA,
+    name: PluginName.SAIA,
+    requiredKeys: [
+    ],
+  }
 };
+
+
 
 export const PluginList = Object.values(Plugins);

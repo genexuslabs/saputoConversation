@@ -109,7 +109,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
     Response:
     `;
-
+  //  
     const answerMessage: Message = { role: 'user', content: answerPrompt };
 
     const answerRes = await fetch(`${OPENAI_API_HOST}/v1/chat/completions`, {

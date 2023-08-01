@@ -107,6 +107,17 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         if (!plugin) {
           body = JSON.stringify(chatBody);
         } else {
+          if (plugin.id === 'saia') {
+            body = JSON.stringify({
+              assistant: "HistoryAssistant",
+              messages: [
+                message
+            ],
+            revision: "1"
+              
+            });
+          }
+          else if (plugin.id === 'google-search'){
           body = JSON.stringify({
             ...chatBody,
             googleAPIKey: pluginKeys
@@ -116,6 +127,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               .find((key) => key.pluginId === 'google-search')
               ?.requiredKeys.find((key) => key.key === 'GOOGLE_CSE_ID')?.value,
           });
+          }
         }
         const controller = new AbortController();
         const response = await fetch(endpoint, {
@@ -133,6 +145,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           return;
         }
         const data = response.body;
+      
         if (!data) {
           homeDispatch({ field: 'loading', value: false });
           homeDispatch({ field: 'messageIsStreaming', value: false });
@@ -179,6 +192,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                 value: updatedConversation,
               });
             } else {
+            
               const updatedMessages: Message[] =
                 updatedConversation.messages.map((message, index) => {
                   if (index === updatedConversation.messages.length - 1) {
@@ -218,16 +232,16 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           const { answer } = await response.json();
           const updatedMessages: Message[] = [
             ...updatedConversation.messages,
-            { role: 'assistant', content: answer },
+            { role: 'assistant', content: answer, plugin: plugin.id },
           ];
           updatedConversation = {
             ...updatedConversation,
             messages: updatedMessages,
-          };
+          };   
           homeDispatch({
             field: 'selectedConversation',
             value: updatedConversation,
-          });
+          });  
           saveConversation(updatedConversation);
           const updatedConversations: Conversation[] = conversations.map(
             (conversation) => {
@@ -241,12 +255,13 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             updatedConversations.push(updatedConversation);
           }
           homeDispatch({ field: 'conversations', value: updatedConversations });
-          saveConversations(updatedConversations);
+          saveConversations(updatedConversations);   
           homeDispatch({ field: 'loading', value: false });
           homeDispatch({ field: 'messageIsStreaming', value: false });
+       
         }
       }
-    },
+      },
     [
       apiKey,
       conversations,
@@ -255,6 +270,8 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       stopConversationRef,
     ],
   );
+
+ 
 
   const scrollToBottom = useCallback(() => {
     if (autoScrollEnabled) {
@@ -324,6 +341,10 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         selectedConversation.messages[selectedConversation.messages.length - 2],
       );
   }, [selectedConversation, throttledScrollDown]);
+
+ /* useEffect(() => {
+    console.log('selected' + JSON.stringify(selectedConversation));
+  }, [selectedConversation]);*/
 
   useEffect(() => {
     const observer = new IntersectionObserver(

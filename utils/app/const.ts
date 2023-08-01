@@ -5,6 +5,10 @@ export const DEFAULT_SYSTEM_PROMPT =
 export const OPENAI_API_HOST =
   process.env.OPENAI_API_HOST || 'https://api.openai.com';
 
+
+export const SAIA_API_TOKEN =
+  process.env.SAIA_API_TOKEN || '';
+
 export const SAIA_API_HOST =
   process.env.SAIA_API_HOST || 'https://api.beta.saia.ai/v1';
 
@@ -24,8 +28,8 @@ export const AZURE_DEPLOYMENT_ID =
   process.env.AZURE_DEPLOYMENT_ID || '';
 
 export const AZURE_AD_CLIENT_ID = 
-  process.env.AZURE_AD_CLIENT_ID || '27b865dd-01fd-46ed-bb96-cab652626103';
+  process.env.AZURE_AD_CLIENT_ID || /*'d1c6898f-d90a-48b3-9904-7ca065f98bf5' */'27b865dd-01fd-46ed-bb96-cab652626103';
 
 export const AZURE_AD_TENANT_ID_URL = 
-  process.env.AZURE_AD_TENANT_ID || 'https://login.microsoftonline.com/5ec7bbf9-1872-46c9-b201-a1e181996b35';
+  process.env.AZURE_AD_TENANT_ID || /*'https://login.microsoftonline.com/c160a942-c869-429f-8a96-f8c8296d57db';*/'https://login.microsoftonline.com/5ec7bbf9-1872-46c9-b201-a1e181996b35';
 
