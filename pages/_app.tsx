@@ -19,14 +19,12 @@ function App({ Component, pageProps }: AppProps<{}>) {
   const queryClient = new QueryClient();
   const [isAuthenticated, setIsAuthenticated] = useState(useIsAuthenticated());
   const [msalInstance, setMsalInstance] = useState<PublicClientApplication|null>(null);
-
+  const { accounts } = useMsal();
   const handleLogin = () => {
     setIsAuthenticated(true);
   }
 
   useEffect(() => {
-
-  
   const msalInstance = new PublicClientApplication({
     auth: {
         clientId: AZURE_AD_CLIENT_ID,
@@ -39,6 +37,11 @@ function App({ Component, pageProps }: AppProps<{}>) {
     }
     });
     setMsalInstance(msalInstance);
+
+    const account = msalInstance.getAllAccounts()[0]; // Aquí obtenemos la cuenta
+    if (account) {
+      setIsAuthenticated(true); // Si hay una cuenta, seteamos como autenticado
+    }
   }, []);
   
   return (
