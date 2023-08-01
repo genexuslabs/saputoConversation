@@ -1,8 +1,8 @@
 import { useMsal } from '@azure/msal-react';
 import { t } from 'i18next';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 import { getProduct } from '@/utils/app/product';
+import { BrowserAuthError } from '@azure/msal-browser';
 
 interface LoginComponentProps {
   onLogin: () => void;
@@ -27,7 +27,15 @@ const LoginComponent: FunctionComponent<LoginComponentProps> = ({ onLogin }) => 
   const handleLogin = () => {
     instance.loginPopup().then((response) => {
       onLogin();
-    });
+    }).catch((error) => {
+      if (error instanceof BrowserAuthError && error.errorCode === 'user_cancelled') {
+        
+      } else {
+        console.log(error);
+      }
+    }
+
+    );
   };
 
   const containerStyle : React.CSSProperties  = {
