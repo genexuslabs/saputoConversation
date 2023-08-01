@@ -1,8 +1,5 @@
 import { Product } from '@/types/product';
 
-const STORAGE_KEY = 'settings';
-
-
 export const getProduct = (): Product => {
   let prod: Product = {
     name: 'Saputo Private GPT',
@@ -12,7 +9,7 @@ export const getProduct = (): Product => {
     importantNote: 'Important: The information you ask is not used by third party for further training AI models',
     accountUsageLink: 'https://console.beta.saia.ai',
     showSystemPrompt: false,
-    allowSelectTemperature: false,
+    allowSelectTemperature: true,
     productUrl: "https://www.saputo.com",
     theme: 'light'
   };
