@@ -1,8 +1,8 @@
 import { useMsal } from '@azure/msal-react';
 import { t } from 'i18next';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { getProduct } from '@/utils/app/product';
-import { BrowserAuthError } from '@azure/msal-browser';
+import { AuthenticationResult, BrowserAuthError } from '@azure/msal-browser';
 
 interface LoginComponentProps {
   onLogin: () => void;
@@ -24,18 +24,22 @@ interface LoginComponentProps {
 const LoginComponent: FunctionComponent<LoginComponentProps> = ({ onLogin }) => {
   const { instance } = useMsal();
 
-  const handleLogin = () => {
-    instance.loginPopup().then((response) => {
-      onLogin();
-    }).catch((error) => {
-      if (error instanceof BrowserAuthError && error.errorCode === 'user_cancelled') {
-        
-      } else {
-        console.log(error);
+  useEffect(() => {
+    const handleResponse = (response: AuthenticationResult | null) => {
+      if (response) {
+        onLogin();
       }
-    }
+    };
+  
+    instance?.handleRedirectPromise().then(handleResponse).catch((error) => {
+      console.log(error);
+    });
+  }, [instance, onLogin]);
 
-    );
+  const handleLogin = () => {
+    instance.loginRedirect().catch((error) => {
+      console.log(error);
+    });
   };
 
   const containerStyle : React.CSSProperties  = {
