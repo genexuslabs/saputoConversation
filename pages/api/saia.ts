@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     const { assistant, messages, revision } =
       req.body ;
   
-    let request = {
+    let request : any = {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': process.env.OPENAI_API_KEY

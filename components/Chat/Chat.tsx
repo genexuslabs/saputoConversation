@@ -262,13 +262,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
         }
       }
       },
-    [
-      apiKey,
-      conversations,
-      pluginKeys,
-      selectedConversation,
-      stopConversationRef,
-    ],
+    [apiKey, conversations, homeDispatch, pluginKeys, selectedConversation, stopConversationRef],
   );
 
  
