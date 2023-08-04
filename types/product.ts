@@ -1,4 +1,5 @@
 export interface Product {
+    keyColor?: string | undefined;
     theme: "light" | "dark";
     productUrl: string ;
     allowSelectTemperature: boolean;

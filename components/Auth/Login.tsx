@@ -2,7 +2,7 @@ import { useMsal } from '@azure/msal-react';
 import { t } from 'i18next';
 import { FunctionComponent, useEffect } from 'react';
 import { getProduct } from '@/utils/app/product';
-import { AuthenticationResult, BrowserAuthError } from '@azure/msal-browser';
+import { AuthenticationResult } from '@azure/msal-browser';
 
 interface LoginComponentProps {
   onLogin: () => void;

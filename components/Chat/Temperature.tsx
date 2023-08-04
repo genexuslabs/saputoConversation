@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { DEFAULT_TEMPERATURE } from '@/utils/app/const';
 
 import HomeContext from '@/pages/api/home/home.context';
+import { getProduct } from '@/utils/app/product';
 
 interface Props {
   label: string;
@@ -46,6 +47,15 @@ export const TemperatureSlider: FC<Props> = ({
         title='Temperature'
         className="cursor-pointer"
         type="range"
+        
+        style={{
+        
+          width: '100%',
+          background: '#d3d3d3',
+          outline: 'none',
+          accentColor: getProduct().keyColor,
+          transition: 'color 0.2s ease-in-out'
+        }}
         min={0}
         max={1}
         step={0.1}

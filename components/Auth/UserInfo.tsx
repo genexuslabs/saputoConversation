@@ -9,7 +9,7 @@ const UserInfo: FunctionComponent = () => {
     <div>
       {account && (
         <div>
-          <p>Logged in as: {account.username}</p>
+          <p>{account.username}</p>
         </div>
       )}
     </div>

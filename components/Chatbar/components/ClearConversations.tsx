@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
 import { SidebarButton } from '@/components/Sidebar/SidebarButton';
+import { getProduct } from '@/utils/app/product';
 
 interface Props {
   onClearConversations: () => void;
@@ -50,7 +51,7 @@ export const ClearConversations: FC<Props> = ({ onClearConversations }) => {
   ) : (
     <SidebarButton
       text={t('Clear conversations')}
-      icon={<IconTrash size={18} />}
+      icon={<IconTrash style={{ color: getProduct().keyColor }} size={18} />}
       onClick={() => setIsConfirming(true)}
     />
   );

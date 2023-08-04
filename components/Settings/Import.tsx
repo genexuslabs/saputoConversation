@@ -6,6 +6,7 @@ import { useTranslation } from 'next-i18next';
 import { SupportedExportFormats } from '@/types/export';
 
 import { SidebarButton } from '../Sidebar/SidebarButton';
+import { getProduct } from '@/utils/app/product';
 
 interface Props {
   onImport: (data: SupportedExportFormats) => void;
@@ -16,6 +17,7 @@ export const Import: FC<Props> = ({ onImport }) => {
   return (
     <>
       <input
+        title='import'
         id="import-file"
         className="sr-only"
         tabIndex={-1}
@@ -36,7 +38,7 @@ export const Import: FC<Props> = ({ onImport }) => {
 
       <SidebarButton
         text={t('Import data')}
-        icon={<IconFileImport size={18} />}
+        icon={<IconFileImport style={{ color: getProduct().keyColor }} size={18} />}
         onClick={() => {
           const importFile = document.querySelector(
             '#import-file',

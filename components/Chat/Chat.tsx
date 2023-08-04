@@ -103,21 +103,22 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           temperature: updatedConversation.temperature,
         };
         const endpoint = getEndpoint(plugin);
+       
         let body;
         if (!plugin) {
           body = JSON.stringify(chatBody);
         } else {
-          if (plugin.id === 'saia') {
+          if (plugin.id != 'google-search') {
             body = JSON.stringify({
-              assistant: "HistoryAssistant",
+              assistant: plugin.id,
               messages: [
                 message
             ],
-            revision: "1"
+            revision: "0"
               
             });
           }
-          else if (plugin.id === 'google-search'){
+          else if (plugin.id === 'google-search') {
           body = JSON.stringify({
             ...chatBody,
             googleAPIKey: pluginKeys
@@ -457,7 +458,10 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             ) : (
               <>
                   <div className="sticky top-0 z-20 bg-neutral-100 text-neutral-500 dark:bg-[#444654] dark:text-neutral-200">
+            
                     <div className="flex justify-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
+                    <img  width={100} height={100} alt={getProduct().description} src={getProduct().image} />
+
                   {t('Model')}: {selectedConversation?.model.name} | {t('Temp')}
                   : {selectedConversation?.temperature} |
                   <button
@@ -518,9 +522,9 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               handleSend(message, 0, plugin);
             }}
             onScrollDownClick={handleScrollDown}
-            onRegenerate={() => {
+            onRegenerate={(plugin) => {
               if (currentMessage) {
-                handleSend(currentMessage, 2, null);
+                handleSend(currentMessage, 2, plugin);
               }
             }}
             showScrollDownButton={showScrollDownButton}

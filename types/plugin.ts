@@ -1,29 +1,28 @@
 import { KeyValuePair } from './data';
 
 export interface Plugin {
-  id: PluginID;
+  id: string;
   name: PluginName;
   requiredKeys: KeyValuePair[];
 }
 
 export interface PluginKey {
-  pluginId: PluginID;
+  pluginId: string;
   requiredKeys: KeyValuePair[];
 }
 
-export enum PluginID {
-  GOOGLE_SEARCH = 'google-search',
-  SAIA = 'saia',
-}
+
 
 export enum PluginName {
   GOOGLE_SEARCH = 'Google Search',
-  SAIA = 'Saia',
 }
 
-export const Plugins: Record<PluginID, Plugin> = {
-  [PluginID.GOOGLE_SEARCH]: {
-    id: PluginID.GOOGLE_SEARCH,
+
+
+
+export const Plugins: Record<string, Plugin> = {
+  ['google-search']: {
+    id: 'google-search',
     name: PluginName.GOOGLE_SEARCH,
     requiredKeys: [
       {
@@ -34,12 +33,6 @@ export const Plugins: Record<PluginID, Plugin> = {
         key: 'GOOGLE_CSE_ID',
         value: '',
       },
-    ],
-  },
-  [PluginID.SAIA]: {
-    id: PluginID.SAIA,
-    name: PluginName.SAIA,
-    requiredKeys: [
     ],
   }
 };

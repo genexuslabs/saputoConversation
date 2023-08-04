@@ -1,12 +1,12 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-import { Plugin, PluginList } from '@/types/plugin';
+import { Plugin, PluginList, PluginName } from '@/types/plugin';
 
 interface Props {
   plugin: Plugin | null;
-  onPluginChange: (plugin: Plugin) => void;
+  onPluginChange: (plugin?: Plugin) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLSelectElement>) => void;
 }
 
@@ -15,6 +15,7 @@ export const PluginSelect: FC<Props> = ({
   onPluginChange,
   onKeyDown,
 }) => {
+  const [assistantNames, setAssistantNames] = useState([]);
   const { t } = useTranslation('chat');
 
   const selectRef = useRef<HTMLSelectElement>(null);
@@ -60,20 +61,66 @@ export const PluginSelect: FC<Props> = ({
     }
   }, []);
 
+  useEffect(() => {
+    const fetchPlugins = async () => {
+      const response = await fetch('api/plugins', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      const data : any = await response.json();
+      var assistants = data.data.assistants.map( (assistant : any) => assistant.assistantName);
+      assistants.push("Search Documents");
+      setAssistantNames(assistants);
+    };
+
+    fetchPlugins();
+  }, [setAssistantNames]);
+
+  
+
   return (
     <div className="flex flex-col">
       <div className="mb-1 w-full rounded border border-neutral-200 bg-transparent pr-2 text-neutral-900 dark:border-neutral-600 dark:text-white">
         <select
+          title={t('Select plugin') || ''}
           ref={selectRef}
           className="w-full cursor-pointer bg-transparent p-2"
           placeholder={t('Select a plugin') || ''}
           value={plugin?.id || ''}
           onChange={(e) => {
-            onPluginChange(
-              PluginList.find(
-                (plugin) => plugin.id === e.target.value,
-              ) as Plugin,
-            );
+            if (e.target.value == "google") {
+              var plugin : Plugin = {
+                id: 'google-search',
+                name: PluginName.GOOGLE_SEARCH,
+                requiredKeys: [
+                  {
+                    key: 'GOOGLE_API_KEY',
+                    value: '',
+                  },
+                  {
+                    key: 'GOOGLE_CSE_ID',
+                    value: '',
+                  },
+                ],
+              };
+              onPluginChange(plugin);
+            }
+            else {
+              var ass = assistantNames.find((assistant) => assistant == e.target.value);
+              if (ass)
+              {
+                var plugin : Plugin = {
+                  name : ass,
+                  id : ass,
+                  requiredKeys :[]
+                }
+                onPluginChange(plugin);
+              } else {
+                onPluginChange(undefined);
+              }
+          }
           }}
           onKeyDown={(e) => {
             handleKeyDown(e);
@@ -83,17 +130,20 @@ export const PluginSelect: FC<Props> = ({
             key="chatgpt"
             value="chatgpt"
             className="dark:bg-[#343541] dark:text-white"
-          >
-            ChatGPT
-          </option>
-
-          {PluginList.map((plugin) => (
+          >ChatGPT</option>
+           <option
+            key="google"
+            value="google"
+            className="dark:bg-[#343541] dark:text-white"
+          >Google Search</option>
+       
+          {assistantNames.map((assistant) => (
             <option
-              key={plugin.id}
-              value={plugin.id}
+              key={assistant}
+              value={assistant}
               className="dark:bg-[#343541] dark:text-white"
             >
-              {plugin.name}
+              {assistant}
             </option>
           ))}
         </select>

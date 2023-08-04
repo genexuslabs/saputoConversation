@@ -1,3 +1,4 @@
+import { getProduct } from '@/utils/app/product';
 import { FC } from 'react';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 const Spinner = ({ size = '1em', className = '' }: Props) => {
   return (
     <svg
-      stroke="currentColor"
+      stroke={getProduct().keyColor}
       fill="none"
       strokeWidth="2"
       viewBox="0 0 24 24"

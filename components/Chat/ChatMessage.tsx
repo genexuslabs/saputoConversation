@@ -18,9 +18,9 @@ import HomeContext from '@/pages/api/home/home.context';
 import { CodeBlock } from '../Markdown/CodeBlock';
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 
-import rehypeMathjax from 'rehype-mathjax';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
+//import rehypeMathjax from 'rehype-mathjax';
+//import remarkGfm from 'remark-gfm';
+//import remarkMath from 'remark-math';
 import { IconProduct } from './IconProduct';
 import { IconSaia } from '../Auth/Login';
 
@@ -137,7 +137,7 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
       <div className="relative m-auto flex p-4 text-base md:max-w-2xl md:gap-6 md:py-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
         <div className="min-w-[40px] text-right font-bold">
         {message.role === 'assistant' ? (
-          message.plugin === 'saia' ? <IconSaia size={30} /> : <IconProduct size={30} />
+          message.plugin != 'google-search' ? <IconSaia size={30} /> : <IconProduct size={30} />
         ) : (
           <IconUser size={30} />
         )}
@@ -170,7 +170,7 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
 
                   <div className="mt-10 flex justify-center space-x-4">
                     <button
-                      className="h-[40px] rounded-md bg-blue-500 px-4 py-1 text-sm font-medium text-white enabled:hover:bg-blue-600 disabled:opacity-50"
+                      className="h-[40px] rounded-md bg-green-500 px-4 py-1 text-sm font-medium text-white enabled:hover:bg-green-600 disabled:opacity-50"
                       onClick={handleEditMessage}
                       disabled={messageContent.trim().length <= 0}
                     >
@@ -216,8 +216,8 @@ export const ChatMessage: FC<Props> = memo(({ message, messageIndex, onEdit }) =
             <div className="flex flex-row">
               <MemoizedReactMarkdown
                 className="prose dark:prose-invert flex-1"
-                remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[rehypeMathjax]}
+       //         remarkPlugins={[remarkGfm, remarkMath]}
+         //       rehypePlugins={[rehypeMathjax]}
                 components={{
                   code({ node, inline, className, children, ...props }) {
                     if (children.length) {
