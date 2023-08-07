@@ -19,13 +19,6 @@ docker build -t globant-gpt .
 docker run -e SAIA_API_KEY=xxxxxxxx -p 3000:3000 globant-gpt
 ```
 
-Pull from ghcr:
-
-```
-docker run -e SAIA_API_KEY=xxxxxxxx -p 3000:3000 globant-gpt
-```
-
-# Settings for your Company
 
 ## Running Locally
 
