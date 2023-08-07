@@ -6,6 +6,13 @@ You can see a demo [here]()
 
 ![Chatbot UI](./public/screenshots/screenshot-0402023.png)
 
+## Features
+
+* Access all models and providers through SAIA.
+* Access Search & Chat from SAIA.
+* Access all asistants in SAIA.
+* Search & Chat over Google Search.
+
 ## Deploy
 
 In order to run locally, create a file .env.local and set all the environment variables 
