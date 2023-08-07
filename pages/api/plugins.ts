@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       const request: RequestInit = {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+          'Authorization': `Bearer ${process.env.SAIA_API_KEY}`
         },
         method: 'GET',
       };

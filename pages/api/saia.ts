@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     let request : any = {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': process.env.OPENAI_API_KEY
+        'Authorization': process.env.SAIA_API_KEY
       },
       method: 'POST',
       body: JSON.stringify({

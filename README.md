@@ -16,13 +16,13 @@ Build locally:
 
 ```shell
 docker build -t globant-gpt .
-docker run -e OPENAI_API_KEY=xxxxxxxx -p 3000:3000 globant-gpt
+docker run -e SAIA_API_KEY=xxxxxxxx -p 3000:3000 globant-gpt
 ```
 
 Pull from ghcr:
 
 ```
-docker run -e OPENAI_API_KEY=xxxxxxxx -p 3000:3000 globant-gpt
+docker run -e SAIA_API_KEY=xxxxxxxx -p 3000:3000 globant-gpt
 ```
 
 # Settings for your Company
@@ -46,12 +46,10 @@ npm i
 Create a .env.local file in the root of the repo with your OpenAI API Key or SAIA Access Token:
 
 ```bash
-OPENAI_API_KEY=YOUR_KEY
+SAIA_API_KEY=YOUR_KEY
 ```
 
-> You can set `OPENAI_API_HOST` where access to the official OpenAI host is restricted or unavailable, allowing users to configure an alternative host for their specific needs.
-
-> Additionally, if you have multiple OpenAI Organizations, you can set `OPENAI_ORGANIZATION` to specify one.
+> You can set `SAIA_API_HOST` where access to the official SAIA host is restricted or unavailable, allowing users to configure an alternative host for their specific needs.
 
 **4. Run App**
 
@@ -69,8 +67,8 @@ When deploying the application, the following environment variables can be set:
 
 | Environment Variable              | Default value                             | Description                                                                   |
 | --------------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------- |
-| OPENAI_API_KEY                    |                                           | The default API key used for authentication with OpenAI                       |
-| OPENAI_API_HOST                   | `https://api.beta.saia.ai/proxy/openai` | The base url, for SAIA                                                        |
+| SAIA_API_KEY                      |                                           | The default API key used for authentication with OpenAI                       |
+| SAIA_API_HOST                     | `https://api.beta.saia.ai/proxy/openai` | The base url, for SAIA                                                        |
 |                                   |                                           |                                                                               |
 | DEFAULT_PROVIDER                  | openai                                    | The default provider to be used                                               |
 | DEFAULT_MODEL                     | `gpt-3.5-turbo-16k`                     | The default model to use on new conversations, for Azure use `gpt-35-turbo` |

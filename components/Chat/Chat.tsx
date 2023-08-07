@@ -389,20 +389,10 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             </div>
             <div className="mb-2">
               {t(
-                'Please set your OpenAI API key in the bottom left of the sidebar.',
+                'Please set your SAIA API key in the bottom left of the sidebar.',
               )}
             </div>
-            <div>
-              {t("If you don't have an OpenAI API key, you can get one here: ")}
-              <a
-                href="https://platform.openai.com/account/api-keys"
-                target="_blank"
-                rel="noopener"
-                className="text-blue-500 hover:underline"
-              >
-                openai.com
-              </a>
-            </div>
+          
           </div>
         </div>
       ) : modelError ? (
