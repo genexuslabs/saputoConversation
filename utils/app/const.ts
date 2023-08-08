@@ -8,7 +8,10 @@ export const SAIA_API_TOKEN =
   process.env.SAIA_API_TOKEN || '';
 
 export const SAIA_API_HOST =
-  process.env.SAIA_API_HOST || 'https://api.beta.saia.ai/v1';
+  process.env.SAIA_API_HOST || 'https://api.beta.saia.ai/proxy/openai';
+
+export const SAIA_API_ASSISTANT =
+  process.env.SAIA_API_ASSISTANT || 'https://api.beta.saia.ai/v1';
 
 export const DEFAULT_TEMPERATURE = 
   parseFloat(process.env.NEXT_PUBLIC_DEFAULT_TEMPERATURE || "1");

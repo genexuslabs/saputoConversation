@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { SAIA_API_HOST } from '@/utils/app/const';
+import { SAIA_API_ASSISTANT } from '@/utils/app/const';
 
 
 
@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
         },
         method: 'GET',
       };
-      const answerRes = await fetch(`${SAIA_API_HOST}/organization/assistants`, request);
+      const answerRes = await fetch(`${SAIA_API_ASSISTANT}/organization/assistants`, request);
       if (!answerRes.ok) throw new Error('Error fetching data');
       const response = await answerRes.json();
      
