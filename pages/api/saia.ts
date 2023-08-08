@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { SAIA_API_HOST } from '@/utils/app/const';
+import { SAIA_API_ASSISTANT, SAIA_API_HOST } from '@/utils/app/const';
 
 
 
@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       })
     };
     
-    const answerRes = await fetch(`${SAIA_API_HOST}/assistant/chat`, request);
+    const answerRes = await fetch(`${SAIA_API_ASSISTANT}/assistant/chat`, request);
     const answerData = await answerRes.json();
     const answer = answerData["text"]; 
    
