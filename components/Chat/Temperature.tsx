@@ -6,6 +6,7 @@ import { DEFAULT_TEMPERATURE } from '@/utils/app/const';
 
 import HomeContext from '@/pages/api/home/home.context';
 import { getProduct } from '@/utils/app/product';
+import { Brush, CircleDot, Scale } from 'lucide-react';
 
 interface Props {
   label: string;
@@ -35,11 +36,7 @@ export const TemperatureSlider: FC<Props> = ({
       <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
         {label}
       </label>
-      <span className="text-[12px] text-black/50 dark:text-white/50 text-sm">
-        {t(
-          'Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.',
-        )}
-      </span>
+  
       <span className="mt-2 mb-1 text-center text-neutral-900 dark:text-neutral-100">
         {temperature.toFixed(1)}
       </span>
@@ -64,13 +61,13 @@ export const TemperatureSlider: FC<Props> = ({
       />
       <ul className="w mt-2 pb-8 flex justify-between px-[24px] text-neutral-900 dark:text-neutral-100">
         <li className="flex justify-center">
-          <span className="absolute">{t('Precise')}</span>
+          <CircleDot size={20} /> <span style={{ margin: '0 5px' }}/> {t(' Precise')}
         </li>
         <li className="flex justify-center">
-          <span className="absolute">{t('Neutral')}</span>
+          <Scale size={20} /> <span style={{ margin: '0 5px' }}/> {t(' Neutral')}
         </li>
         <li className="flex justify-center">
-          <span className="absolute">{t('Creative')}</span>
+        <Brush size={20} /><span style={{ margin: '0 5px' }}/>{t(' Creative')}
         </li>
       </ul>
     </div>

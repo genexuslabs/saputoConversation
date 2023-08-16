@@ -36,6 +36,7 @@ import { SystemPrompt } from './SystemPrompt';
 import { TemperatureSlider } from './Temperature';
 import { MemoizedChatMessage } from './MemoizedChatMessage';
 
+
 interface Props {
   stopConversationRef: MutableRefObject<boolean>;
 }
@@ -65,7 +66,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [showScrollDownButton, setShowScrollDownButton] =
     useState<boolean>(false);
-
+ 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -419,6 +420,9 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                   {models.length > 0 && (
                     <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
                       <ModelSelect />
+                
+                    
+
                       {getProduct().showSystemPrompt ?
                       <SystemPrompt
                         conversation={selectedConversation}
@@ -430,9 +434,11 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                           })
                         }
                       /> : null }
+                      <div className="flex justify-center"/>
                       {getProduct().allowSelectTemperature ? 
+                      
                       <TemperatureSlider
-                        label={t('Temperature')}
+                        label={t('Choose a conversation style')}
                         onChangeTemperature={(temperature) =>
                           handleUpdateConversation(selectedConversation, {
                             key: 'temperature',

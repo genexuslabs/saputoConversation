@@ -1,0 +1,18 @@
+.youtube-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .video-selector {
+    width: 50%;
+    margin-bottom: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .video-frame {
+    width: 560px;
+    height: 315px;
+  }
