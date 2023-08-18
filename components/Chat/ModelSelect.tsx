@@ -7,6 +7,7 @@ import { OpenAIModel } from '@/types/openai';
 
 import HomeContext from '@/pages/api/home/home.context';
 import { getProduct } from '@/utils/app/product';
+import { OPENAI_API_TYPE } from '@/utils/app/const';
 
 export const ModelSelect = () => {
   const { t } = useTranslation('chat');
@@ -29,30 +30,36 @@ export const ModelSelect = () => {
 
   return (
     <div className="flex flex-col">
-      <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
-        {t('Chat With')}
-      </label>
-      <div className="w-full rounded-lg border border-neutral-200 bg-transparent pr-2 text-neutral-900 dark:border-neutral-600 dark:text-white">
-        <select
-          title={t('Select a model') || ''}
-          className="w-full bg-transparent p-2"
-          placeholder={t('Select a model') || ''}
-          value={selectedConversation?.model?.id || defaultModelId}
-          onChange={handleChange}
-        >
-          {models.map((model) => (
-            <option
-              key={model.id}
-              value={model.id}
-              className="dark:bg-[#343541] dark:text-white"
+     
+      {OPENAI_API_TYPE === 'azure' && (
+        <>
+          <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
+            {t('Chat With')}
+          </label>
+          <div className="w-full rounded-lg border border-neutral-200 bg-transparent pr-2 text-neutral-900 dark:border-neutral-600 dark:text-white">
+            <select
+              title={t('Select a model') || ''}
+              className="w-full bg-transparent p-2"
+              placeholder={t('Select a model') || ''}
+              value={selectedConversation?.model?.id || defaultModelId}
+              onChange={handleChange}
             >
-              {model.id === defaultModelId
-                ? `Default (${model.name})`
-                : model.name}
-            </option>
-          ))}
-        </select>
-      </div>
+              {models.map((model) => (
+                <option
+                  key={model.id}
+                  value={model.id}
+                  className="dark:bg-[#343541] dark:text-white"
+                >
+                  {model.id === defaultModelId
+                    ? `Default (${model.name})`
+                    : model.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
+      
       <div className="w-full mt-3 text-left text-neutral-700 dark:text-neutral-400 flex items-center">
         <a
           href={getProduct().accountUsageLink}

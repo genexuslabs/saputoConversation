@@ -8,7 +8,7 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const { key } = (await req.json()) as {
+  /*  const { key } = (await req.json()) as {
       key: string;
     };
 
@@ -47,8 +47,10 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const json = await response.json();
-
-    const models: OpenAIModel[] = json.data
+*/
+    const models: OpenAIModel[] = Object.values(OpenAIModels); 
+    
+    /*json.data
       .map((model: any) => {
         const model_name = (OPENAI_API_TYPE === 'azure') ? model.model : model.id;
         for (const [key, value] of Object.entries(OpenAIModelID)) {
@@ -60,7 +62,7 @@ const handler = async (req: Request): Promise<Response> => {
           }
         }
       })
-      .filter(Boolean);
+      .filter(Boolean);*/
 
     return new Response(JSON.stringify(models), { status: 200 });
   } catch (error) {

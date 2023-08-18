@@ -70,7 +70,7 @@ export const PluginSelect: FC<Props> = ({
         }
       });
       const data : any = await response.json();
-      var assistants = data.data.assistants.map( (assistant : any) => assistant.assistantName);
+      var assistants = data.assistants.map( (assistant : any) => assistant.assistantName);
       assistants.push("Search Documents");
       setAssistantNames(assistants);
     };
@@ -118,7 +118,8 @@ export const PluginSelect: FC<Props> = ({
                 }
                 onPluginChange(plugin);
               } else {
-                onPluginChange(undefined);
+                onPluginChange();
+              
               }
           }
           }}

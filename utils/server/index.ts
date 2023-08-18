@@ -32,9 +32,9 @@ export const OpenAIStream = async (
 ) => {
   let url = `${SAIA_API_HOST}/v1/chat/completions`;
   if (OPENAI_API_TYPE === 'azure') {
-    url = `${SAIA_API_HOST}/openai/deployments/${AZURE_DEPLOYMENT_ID}/chat/completions?api-version=${OPENAI_API_VERSION}`;
+    url = `${SAIA_API_HOST}`
   }
-
+  console.log(url);
   var body = JSON.stringify({
     ...(OPENAI_API_TYPE === 'openai' && {model: model.id}),
     messages: [
@@ -51,11 +51,8 @@ export const OpenAIStream = async (
   const request = {
     headers: {
       'Content-Type': 'application/json',
-      ...(OPENAI_API_TYPE === 'openai' && {
+      ...(true && {
         Authorization: `Bearer ${key ? key : process.env.SAIA_API_KEY}`
-      }),
-      ...(OPENAI_API_TYPE === 'azure' && {
-        'api-key': `${key ? key : process.env.SAIA_API_KEY}`
       }),
       ...((OPENAI_API_TYPE === 'openai' && OPENAI_ORGANIZATION) && {
         'OpenAI-Organization': OPENAI_ORGANIZATION,

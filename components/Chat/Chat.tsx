@@ -421,8 +421,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                     <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
                       <ModelSelect />
                 
-                    
-
                       {getProduct().showSystemPrompt ?
                       <SystemPrompt
                         conversation={selectedConversation}
