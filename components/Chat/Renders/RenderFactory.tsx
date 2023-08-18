@@ -2,9 +2,10 @@ import { ReactNode } from "react";
 import YoutubeVideo from '../Renders/YoutubeRender';
 import { ChartRender } from "./ChartRender";
 import { MemoizedReactMarkdown } from "@/components/Markdown/MemoizedReactMarkdown";
-import { Message } from "/Users/gmilano/chatgptui/globantGPT/types/chat";
+import { Message } from "../../../types/chat";
 import remarkGfm from "remark-gfm";
 import { CodeBlock } from "@/components/Markdown/CodeBlock";
+import { Conversation } from "../../../types/chat";
 
 export function renderContent(content: string): ReactNode {
     const saiaRegex = /<saia render="(?<render>[^"]*)">(?<content>[\s\S]*?)<\/saia>/;
@@ -28,7 +29,7 @@ export function renderFactory(renderType: string, renderContent: string): ReactN
     }
 }
 
-export function renderMarkdown(message: Message, messageIsStreaming: boolean, messageIndex: number, selectedConversation: import("/Users/gmilano/chatgptui/globantGPT/types/chat").Conversation | undefined): ReactNode {
+export function renderMarkdown(message: Message, messageIsStreaming: boolean, messageIndex: number, selectedConversation: Conversation | undefined): ReactNode {
     return <MemoizedReactMarkdown
       className="prose dark:prose-invert flex-1"
       remarkPlugins={[remarkGfm]}

@@ -321,13 +321,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   };
   const throttledScrollDown = throttle(scrollDown, 250);
 
-  // useEffect(() => {
-  //   console.log('currentMessage', currentMessage);
-  //   if (currentMessage) {
-  //     handleSend(currentMessage);
-  //     homeDispatch({ field: 'currentMessage', value: undefined });
-  //   }
-  // }, [currentMessage]);
 
   useEffect(() => {
     throttledScrollDown();
@@ -337,9 +330,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       );
   }, [selectedConversation, throttledScrollDown]);
 
- /* useEffect(() => {
-    console.log('selected' + JSON.stringify(selectedConversation));
-  }, [selectedConversation]);*/
+ 
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -421,6 +412,8 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                     <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
                       <ModelSelect />
                 
+                    
+
                       {getProduct().showSystemPrompt ?
                       <SystemPrompt
                         conversation={selectedConversation}
