@@ -141,7 +141,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       }),
     };
    
-    const answerRes = await fetch(getCompletionUrl(), request);
+    const answerRes = await fetch(getCompletionUrl(null), request);
     const { choices: choices2 } = await answerRes.json();
     const answer = choices2[0].message.content;
 
