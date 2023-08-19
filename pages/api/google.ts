@@ -112,7 +112,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     `;
   //  
     const answerMessage: Message = { role: 'user', content: JSON.stringify(answerPrompt)};
-    console.log(getCompletionUrl());
+    console.log(getCompletionUrl(null));
 
 
     const request = {
