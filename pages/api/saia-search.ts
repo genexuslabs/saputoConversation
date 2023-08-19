@@ -15,11 +15,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
       },
       method: 'POST',
       body: JSON.stringify({
-        'profile': 'demodocuments',
+        'profile': 'default',
         'question': messages[0].content
       })
     };
     const answerRes = await fetch(`${SAIA_API_ASSISTANT}/search/execute`, request);
+ 
     const answerData = await answerRes.json();
     const answer = answerData["text"]; 
     res.status(200).json( { answer } );

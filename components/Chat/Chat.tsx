@@ -1,5 +1,5 @@
 import { IconClearAll, IconSettings } from '@tabler/icons-react';
-import { getProduct } from '@/utils/app/product'; 
+import { getProduct } from '@/utils/app/product';
 
 import {
   MutableRefObject,
@@ -64,9 +64,9 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
   const [currentMessage, setCurrentMessage] = useState<Message>();
   const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
   const [showSettings, setShowSettings] = useState<boolean>(false);
-  const [showScrollDownButton, setShowScrollDownButton] =
-    useState<boolean>(false);
- 
+  const [showScrollDownButton, setShowScrollDownButton] = useState<boolean>(false);
+  const [currentPlugin, setCurrentPlugin] = useState<string>();
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -104,7 +104,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           temperature: updatedConversation.temperature,
         };
         const endpoint = getEndpoint(plugin);
-       
+
         let body;
         if (!plugin) {
           body = JSON.stringify(chatBody);
@@ -114,21 +114,21 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
               assistant: plugin.id,
               messages: [
                 message
-            ],
-            revision: "0"
-              
+              ],
+              revision: "0"
+
             });
           }
           else if (plugin.id === 'google-search') {
-          body = JSON.stringify({
-            ...chatBody,
-            googleAPIKey: pluginKeys
-              .find((key) => key.pluginId === 'google-search')
-              ?.requiredKeys.find((key) => key.key === 'GOOGLE_API_KEY')?.value,
-            googleCSEId: pluginKeys
-              .find((key) => key.pluginId === 'google-search')
-              ?.requiredKeys.find((key) => key.key === 'GOOGLE_CSE_ID')?.value,
-          });
+            body = JSON.stringify({
+              ...chatBody,
+              googleAPIKey: pluginKeys
+                .find((key) => key.pluginId === 'google-search')
+                ?.requiredKeys.find((key) => key.key === 'GOOGLE_API_KEY')?.value,
+              googleCSEId: pluginKeys
+                .find((key) => key.pluginId === 'google-search')
+                ?.requiredKeys.find((key) => key.key === 'GOOGLE_CSE_ID')?.value,
+            });
           }
         }
         const controller = new AbortController();
@@ -193,7 +193,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                 value: updatedConversation,
               });
             } else {
-            
+
               const updatedMessages: Message[] =
                 updatedConversation.messages.map((message, index) => {
                   if (index === updatedConversation.messages.length - 1) {
@@ -238,11 +238,11 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           updatedConversation = {
             ...updatedConversation,
             messages: updatedMessages,
-          };   
+          };
           homeDispatch({
             field: 'selectedConversation',
             value: updatedConversation,
-          });  
+          });
           saveConversation(updatedConversation);
           const updatedConversations: Conversation[] = conversations.map(
             (conversation) => {
@@ -256,17 +256,17 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             updatedConversations.push(updatedConversation);
           }
           homeDispatch({ field: 'conversations', value: updatedConversations });
-          saveConversations(updatedConversations);   
+          saveConversations(updatedConversations);
           homeDispatch({ field: 'loading', value: false });
           homeDispatch({ field: 'messageIsStreaming', value: false });
-       
+
         }
       }
-      },
+    },
     [apiKey, conversations, homeDispatch, pluginKeys, selectedConversation, stopConversationRef],
   );
 
- 
+
 
   const scrollToBottom = useCallback(() => {
     if (autoScrollEnabled) {
@@ -330,7 +330,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       );
   }, [selectedConversation, throttledScrollDown]);
 
- 
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -355,6 +355,15 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       }
     };
   }, [messagesEndRef]);
+
+  function getStyleText(temperature: number | any): string {
+    if (temperature <= 0.25)
+      return t('Precise');
+    if (temperature < 0.75)
+      return t('Neutral');
+    return t('Creative')
+
+  }
 
   return (
     <div className="relative flex-1 overflow-hidden bg-white dark:bg-[#343541]">
@@ -383,7 +392,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                 'Please set your SAIA API key in the bottom left of the sidebar.',
               )}
             </div>
-          
+
           </div>
         </div>
       ) : modelError ? (
@@ -404,75 +413,75 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
                         <Spinner size="16px" className="mx-auto" />
                       </div>
                     ) : (
-                      <img  width={100} height={100} alt={getProduct().description} src={getProduct().image} />
+                      <img width={100} height={100} alt={getProduct().description} src={getProduct().image} />
                     )}
                   </div>
 
                   {models.length > 0 && (
                     <div className="flex h-full flex-col space-y-4 rounded-lg border border-neutral-200 p-4 dark:border-neutral-600">
                       <ModelSelect />
-                
-                    
+
+
 
                       {getProduct().showSystemPrompt ?
-                      <SystemPrompt
-                        conversation={selectedConversation}
-                        prompts={prompts}
-                        onChangePrompt={(prompt) =>
-                          handleUpdateConversation(selectedConversation, {
-                            key: 'prompt',
-                            value: prompt,
-                          })
-                        }
-                      /> : null }
-                      <div className="flex justify-center"/>
-                      {getProduct().allowSelectTemperature ? 
-                      
-                      <TemperatureSlider
-                        label={t('Choose a conversation style')}
-                        onChangeTemperature={(temperature) =>
-                          handleUpdateConversation(selectedConversation, {
-                            key: 'temperature',
-                            value: temperature,
-                          })
-                        }
-                      /> : null }
+                        <SystemPrompt
+                          conversation={selectedConversation}
+                          prompts={prompts}
+                          onChangePrompt={(prompt) =>
+                            handleUpdateConversation(selectedConversation, {
+                              key: 'prompt',
+                              value: prompt,
+                            })
+                          }
+                        /> : null}
+                      <div className="flex justify-center" />
+                      {getProduct().allowSelectTemperature ?
+
+                        <TemperatureSlider
+                          label={t('Choose a conversation style')}
+                          onChangeTemperature={(temperature) =>
+                            handleUpdateConversation(selectedConversation, {
+                              key: 'temperature',
+                              value: temperature,
+                            })
+                          }
+                        /> : null}
                     </div>
                   )}
                 </div>
               </>
             ) : (
               <>
-                  <div className="sticky top-0 z-20 bg-neutral-100 text-neutral-500 dark:bg-[#444654] dark:text-neutral-200">
-            
-                    <div className="flex justify-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
-                    <img  width={100} height={100} alt={getProduct().description} src={getProduct().image} />
+                <div className="sticky top-0 z-20 bg-neutral-100 text-neutral-500 dark:bg-[#444654] dark:text-neutral-200">
 
-                  {t('Model')}: {selectedConversation?.model.name} | {t('Temp')}
-                  : {selectedConversation?.temperature} |
-                  <button
-                    title={t('Settings') || ''}
-                    className="ml-2 cursor-pointer hover:opacity-50"
-                    onClick={handleSettings}
-                  >
-                    <IconSettings size={18} />
-                  </button>
-                  <button
-                    title={t('Clear Messages') || ''}
-                    className="ml-2 cursor-pointer hover:opacity-50"
-                    onClick={onClearAll}
-                  >
-                    <IconClearAll size={18} />
-                  </button>
-                </div>
-                {showSettings && (
-                  <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
-                    <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">
-                      <ModelSelect />
+                  <div className="flex justify-center border border-b-neutral-300 bg-neutral-100 py-2 text-sm text-neutral-500 dark:border-none dark:bg-[#444654] dark:text-neutral-200">
+                    <img width={100} height={100} alt={getProduct().description} src={getProduct().image} />
+                    <div className="ml-4 flex items-center">
+                      { currentPlugin ? "Plugin:" + currentPlugin : ""} | {t('Model')}: {selectedConversation?.model.name} | {t('Style')}: {getStyleText(selectedConversation?.temperature)} |
+                      <button
+                        title={t('Settings') || ""}
+                        className="ml-2 cursor-pointer hover:opacity-50"
+                        onClick={handleSettings}
+                      >
+                        <IconSettings size={18} />
+                      </button>
+                      <button
+                        title={t('Clear Messages') || ""}
+                        className="ml-2 cursor-pointer hover:opacity-50"
+                        onClick={onClearAll}
+                      >
+                        <IconClearAll size={18} />
+                      </button>
                     </div>
                   </div>
-                )}
-                  </div>
+                  {showSettings && (
+                    <div className="flex flex-col space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl">
+                      <div className="flex h-full flex-col space-y-4 border-b border-neutral-200 p-4 dark:border-neutral-600 md:rounded-lg md:border">
+                        <ModelSelect />
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 {selectedConversation?.messages.map((message, index) => (
                   <MemoizedChatMessage
@@ -505,6 +514,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
             textareaRef={textareaRef}
             onSend={(message, plugin) => {
               setCurrentMessage(message);
+              setCurrentPlugin(plugin?.name);
               handleSend(message, 0, plugin);
             }}
             onScrollDownClick={handleScrollDown}

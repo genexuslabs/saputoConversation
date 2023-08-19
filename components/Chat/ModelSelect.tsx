@@ -31,7 +31,7 @@ export const ModelSelect = () => {
   return (
     <div className="flex flex-col">
      
-      {OPENAI_API_TYPE === 'azure' && (
+      {OPENAI_API_TYPE !== 'azure' && (
         <>
           <label className="mb-2 text-left text-neutral-700 dark:text-neutral-400">
             {t('Chat With')}

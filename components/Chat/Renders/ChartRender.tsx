@@ -38,7 +38,7 @@ function convertToJson(str : string) {
   }
   
   export const ChartRender : React.FC<ChartComponentProps> = ({ chartString }) => {
-    const correctedString = convertToJson(chartString);//.replace(/(\w+):/g, '"$1":');
+    const correctedString = (chartString);//.replace(/(\w+):/g, '"$1":');
     let options;
   
   

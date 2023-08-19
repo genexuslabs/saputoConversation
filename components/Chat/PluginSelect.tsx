@@ -3,6 +3,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 
 import { Plugin, PluginList, PluginName } from '@/types/plugin';
+import { getProduct } from '@/utils/app/product';
 
 interface Props {
   plugin: Plugin | null;
@@ -70,9 +71,11 @@ export const PluginSelect: FC<Props> = ({
         }
       });
       const data : any = await response.json();
-      var assistants = data.assistants.map( (assistant : any) => assistant.assistantName);
-      assistants.push("Search Documents");
-      setAssistantNames(assistants);
+      if (data.assistants) {
+        var assistants = data.assistants.map( (assistant : any) => assistant.assistantName);
+        assistants.push("Search Documents");
+        setAssistantNames(assistants);
+      }
     };
 
     fetchPlugins();
@@ -131,7 +134,7 @@ export const PluginSelect: FC<Props> = ({
             key="chatgpt"
             value="chatgpt"
             className="dark:bg-[#343541] dark:text-white"
-          >ChatGPT</option>
+          >{getProduct().name}</option>
            <option
             key="google"
             value="google"

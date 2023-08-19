@@ -1,5 +1,5 @@
 import { Message } from '@/types/chat';
-import { OpenAIModel } from '@/types/openai';
+import { OpenAIModel, OpenAIModels } from '@/types/openai';
 
 import { AZURE_DEPLOYMENT_ID, SAIA_API_HOST, OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_ORGANIZATION } from '../app/const';
 
@@ -8,6 +8,8 @@ import {
   ReconnectInterval,
   createParser,
 } from 'eventsource-parser';
+import { getCompletionUrl } from '../app/api';
+import { Readable } from 'stream';
 
 export class OpenAIError extends Error {
   type: string;
@@ -30,13 +32,17 @@ export const OpenAIStream = async (
   key: string,
   messages: Message[],
 ) => {
-  let url = `${SAIA_API_HOST}/v1/chat/completions`;
-  if (OPENAI_API_TYPE === 'azure') {
-    url = `${SAIA_API_HOST}`
-  }
+  let url = getCompletionUrl(model.id);
+
+  const aiModel = OpenAIModels[model.id as keyof typeof OpenAIModels];
+
+  console.log(JSON.stringify(aiModel));
+  let streaming : boolean = aiModel.streaming;
   console.log(url);
+  key = `Bearer ${process.env.SAIA_API_KEY}`;
+  console.log(key);
   var body = JSON.stringify({
-    ...(OPENAI_API_TYPE === 'openai' && {model: model.id}),
+    ...(OPENAI_API_TYPE === 'openai' && {model: aiModel.id}),
     messages: [
       {
         role: 'system',
@@ -46,13 +52,14 @@ export const OpenAIStream = async (
     ],
     max_tokens: 1000,
     temperature: temperature,
-    stream: true,
+    stream: streaming,
   });
   const request = {
     headers: {
+      'x-api-key': "iOr6XdQEGk3IbpgkQmURAa0jvRn7mfYu3eTLv8KS",
       'Content-Type': 'application/json',
       ...(true && {
-        Authorization: `Bearer ${key ? key : process.env.SAIA_API_KEY}`
+        Authorization: (aiModel.key ? aiModel.key : key)
       }),
       ...((OPENAI_API_TYPE === 'openai' && OPENAI_ORGANIZATION) && {
         'OpenAI-Organization': OPENAI_ORGANIZATION,
@@ -84,7 +91,13 @@ export const OpenAIStream = async (
       );
     }
   }
-
+  if (!streaming) {
+    const responseBody = await res.json(); // Convertir el cuerpo de la respuesta a un objeto JavaScript
+    const assistantMessage = responseBody.choices[0].message.content; // Extraer el contenido del mensaje del asistente
+    
+    // Crear un ReadableStream con el contenido del mensaje
+    return assistantMessage;
+  }
   const stream = new ReadableStream({
     async start(controller) {
       const onParse = (event: ParsedEvent | ReconnectInterval) => {
@@ -116,3 +129,6 @@ export const OpenAIStream = async (
 
   return stream;
 };
+
+
+

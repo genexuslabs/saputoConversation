@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { SAIA_API_HOST } from '@/utils/app/const';
+import { OPENAI_API_TYPE, OPENAI_ORGANIZATION, SAIA_API_HOST } from '@/utils/app/const';
 import { cleanSourceText } from '@/utils/server/google';
 
 import { Message } from '@/types/chat';
@@ -9,6 +9,7 @@ import { GoogleBody, GoogleSource } from '@/types/google';
 import { Readability } from '@mozilla/readability';
 import endent from 'endent';
 import jsdom, { JSDOM } from 'jsdom';
+import { getCompletionUrl } from '@/utils/app/api';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
   try {
@@ -110,14 +111,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     Response:
     `;
   //  
-    const answerMessage: Message = { role: 'user', content: answerPrompt };
+    const answerMessage: Message = { role: 'user', content: JSON.stringify(answerPrompt)};
+    console.log(getCompletionUrl());
 
-    const answerRes = await fetch(`${SAIA_API_HOST}/v1/chat/completions`, {
+
+    const request = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${key ? key : process.env.SAIA_API_KEY}`,
-        ...(process.env.OPENAI_ORGANIZATION && {
-          'OpenAI-Organization': process.env.OPENAI_ORGANIZATION,
+        ...(true && {
+          Authorization: `Bearer ${key ? key : process.env.SAIA_API_KEY}`
+        }),
+        ...((OPENAI_API_TYPE === 'openai' && OPENAI_ORGANIZATION) && {
+          'OpenAI-Organization': OPENAI_ORGANIZATION,
         }),
       },
       method: 'POST',
@@ -128,14 +133,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
             role: 'system',
             content: `Use the sources to provide an accurate response. Respond in markdown format. Cite the sources you used as [1](link), etc, as you use them. Maximum 4 sentences.`,
           },
-          answerMessage,
+          answerMessage
         ],
         max_tokens: 1000,
-        temperature: 1,
+        temperature: 0,
         stream: false,
       }),
-    });
-
+    };
+   
+    const answerRes = await fetch(getCompletionUrl(), request);
     const { choices: choices2 } = await answerRes.json();
     const answer = choices2[0].message.content;
 
